@@ -9,11 +9,11 @@ BINARY_UNIX=$(BINARY_NAME)_unix
 
 default: build
 build:
-        $(GOBUILD) -o $(BINARY_NAME) -v
+		$(GOBUILD) -o $(BINARY_NAME) -v
 clean:
-        $(GOCLEAN)
-        rm -f $(BINARY_NAME)
-        rm -f $(BINARY_UNIX)
+		$(GOCLEAN)
+		rm -f $(BINARY_NAME)
+		rm -f $(BINARY_UNIX)
 run:
-        $(GOBUILD) -o $(BINARY_NAME) -v ./...
-        ./$(BINARY_NAME)
+		$(GOBUILD) -o $(BINARY_NAME) -v ./...
+		./$(BINARY_NAME)
