@@ -24,7 +24,6 @@ func Server() {
 
 func run(addr string, conn net.Conn) {
 	defer func() {
-		delete(clients, addr)
 		msg := fmt.Sprintf("one client offline, there are %d clients online", len(clients))
 		fmt.Println(msg)
 		sendMsg(addr, []byte(msg), len(msg))
@@ -54,6 +53,7 @@ func sendMsg(addr string, data []byte, length int) {
 		_, err := value.Write(data[:length])
 		if err != nil {
 			fmt.Println("Error :", err.Error())
+			delete(clients, addr)
 			return
 		}
 	}
