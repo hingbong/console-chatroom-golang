@@ -20,30 +20,30 @@ func Client() {
 	trimmedName := strings.Trim(name, "\r\n")
 	readError := make(chan bool)
 	writeExit := make(chan bool)
-	go func() {
+	go func(connection net.Conn, sem chan<- bool) {
 		for {
 			data := make([]byte, 2048)
-			n, err := conn.Read(data)
+			n, err := connection.Read(data)
 			if err != nil {
 				fmt.Println(err)
-				readError <- true
+				sem <- true
 				return
 			}
 			fmt.Println(strings.Trim(string(data[:n]), "\r\n"))
 		}
-	}()
-	go func() {
+	}(conn, readError)
+	go func(connection net.Conn, name string, reader *bufio.Reader, sem chan<- bool) {
 		for {
 			fmt.Println("What to send to the server? Type exit to quit.")
-			input, _ := inputReader.ReadString('\n')
+			input, _ := reader.ReadString('\n')
 			trimmedInput := strings.Trim(input, "\r\n")
 			if trimmedInput == "exit" {
-				writeExit <- true
+				sem <- true
 				return
 			}
-			_, err = conn.Write([]byte(trimmedName + " says: " + trimmedInput))
+			_, err = connection.Write([]byte(name + " says: " + trimmedInput))
 		}
-	}()
+	}(conn, trimmedName, inputReader, writeExit)
 	select {
 	case <-readError:
 	case <-writeExit:

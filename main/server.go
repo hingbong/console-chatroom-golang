@@ -23,16 +23,17 @@ func Server() {
 }
 
 func run(addr string, conn net.Conn) {
-	defer func() {
+	defer func(address string) {
 		msg := fmt.Sprintf("one client offline, there are %d clients online", len(clients))
 		fmt.Println(msg)
-		sendMsg(addr, []byte(msg), len(msg))
-	}()
+		sendMsg(address, []byte(msg), len(msg))
+	}(addr)
+
+	msg := fmt.Sprintf("one client online, there are %d clients online", len(clients))
+	fmt.Println(msg)
+	sendMsg(addr, []byte(msg), len(msg))
 
 	for {
-		msg := fmt.Sprintf("one client oneline, there are %d clients online", len(clients))
-		fmt.Println(msg)
-		sendMsg(addr, []byte(msg), len(msg))
 		buf := make([]byte, 2048)
 		n, err := conn.Read(buf)
 		if err != nil {
