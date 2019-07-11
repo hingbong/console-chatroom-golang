@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-func Client() {
-	conn, err := net.Dial("tcp", "localhost:8888")
+func Client(serverAddr *string) {
+	conn, err := net.Dial("tcp", *serverAddr)
 	if err != nil {
 		fmt.Println("Error dialing", err.Error())
 		return

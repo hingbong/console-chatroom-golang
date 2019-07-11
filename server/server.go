@@ -8,8 +8,8 @@ import (
 
 var clients = map[string]net.Conn{}
 
-func Server() {
-	conn, _ := net.Listen("tcp", "127.0.0.1:8888")
+func Server(listenPort *string) {
+	conn, _ := net.Listen("tcp", ":"+(*listenPort))
 	for {
 		accept, e := conn.Accept()
 		if e != nil {
