@@ -3,9 +3,9 @@ package main
 import (
 	"consoleChatRoomInGolang/client"
 	"consoleChatRoomInGolang/server"
-
 	"flag"
 	"fmt"
+	"runtime"
 )
 
 var (
@@ -16,6 +16,7 @@ var (
 func main() {
 	flag.PrintDefaults()
 	flag.Parse() // Scans the arg list and sets up flags
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	if *ser {
 		listenPort := new(string)
 		fmt.Println("Please input the port you want to listen")
@@ -35,5 +36,4 @@ func main() {
 		}
 		client.Client(serverAddr)
 	}
-
 }
