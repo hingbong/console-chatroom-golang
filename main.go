@@ -1,10 +1,10 @@
 package main
 
 import (
-	"consoleChatRoomInGolang/client"
-	"consoleChatRoomInGolang/server"
 	"flag"
 	"fmt"
+	"github.com/hingbong/console-chatroom-golang/client"
+	"github.com/hingbong/console-chatroom-golang/server"
 	"runtime"
 )
 
